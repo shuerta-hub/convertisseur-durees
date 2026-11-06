@@ -5,21 +5,23 @@ const SECONDES_PAR_UNITE = {
   min: 60,
   h: 3600,
   j: 86400,
+  sem: 604800,
 };
 
-const MOTIF = /^\s*(\d+(?:[.,]\d+)?)\s*(s|min|h|j)\s*$/;
+// « sem » est placé avant « s » dans l'alternance; le « $ » final impose de toute façon une correspondance complète.
+const MOTIF = /^\s*(\d+(?:[.,]\d+)?)\s*(sem|s|min|h|j)\s*$/;
 
-const EXEMPLES = '5 min, 30 s, 2h, 2 h, 1,5 min, 1 j';
+const EXEMPLES = '5 min, 30 s, 2h, 2 h, 1,5 min, 1 j, 2 sem';
 
 /**
- * Convertit une durée écrite (ex. "5 min", "2h", "1,5 min") en secondes.
- * Unités reconnues: s, min, h, j. Lève une Error avec des exemples si la durée n'est pas reconnue.
+ * Convertit une durée écrite (ex. "5 min", "2h", "1,5 min", "2 sem") en secondes.
+ * Unités reconnues: s, min, h, j, sem. Lève une Error avec des exemples si la durée n'est pas reconnue.
  */
 function enSecondes(texte) {
   const correspondance = MOTIF.exec(String(texte));
   if (!correspondance) {
     throw new Error(
-      `Durée non reconnue: "${texte}". Exemples de durées valides: ${EXEMPLES}. Unités reconnues: s, min, h, j.`
+      `Durée non reconnue: "${texte}". Exemples de durées valides: ${EXEMPLES}. Unités reconnues: s, min, h, j, sem.`
     );
   }
   const nombre = Number(correspondance[1].replace(',', '.'));
