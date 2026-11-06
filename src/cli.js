@@ -1,9 +1,33 @@
 #!/usr/bin/env node
 'use strict';
 
-const { enSecondes } = require('./duree.js');
+const { enSecondes, UNITES } = require('./duree.js');
+
+function texteAide() {
+  const unites = Object.entries(UNITES)
+    .map(([unite, secondes]) => `  ${unite}  (${secondes} s)`)
+    .join('\n');
+  return [
+    'Usage: npm run convertir -- <durée>',
+    '       node src/cli.js <durée>',
+    '',
+    'Convertit une durée en secondes.',
+    '',
+    'Unités reconnues:',
+    unites,
+    '',
+    'Exemple: npm run convertir -- "5 min"  affiche  300 s',
+    '',
+    'Options:',
+    '  --aide, -h  affiche cette aide',
+  ].join('\n');
+}
 
 function principal(args) {
+  if (args.includes('--aide') || args.includes('-h')) {
+    console.log(texteAide());
+    return 0;
+  }
   const texte = args.join(' ').trim();
   try {
     if (texte === '') {
