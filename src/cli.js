@@ -27,8 +27,8 @@ function texteAide() {
     'Exemple: npm run convertir -- "5 min"  affiche  300 s',
     '',
     'Options:',
-    '  --aide, -h  affiche cette aide',
-    '  --version   affiche la version du programme',
+    '  --aide, -h     affiche cette aide',
+    '  --version, -v  affiche la version du programme',
   ].join('\n');
 }
 
@@ -37,7 +37,7 @@ function principal(args) {
     console.log(texteAide());
     return 0;
   }
-  if (args.includes('--version')) {
+  if (args.includes('--version') || args.includes('-v')) {
     console.log(versionDuProgramme());
     return 0;
   }
