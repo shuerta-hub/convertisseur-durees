@@ -1,7 +1,15 @@
 #!/usr/bin/env node
 'use strict';
 
+const fs = require('node:fs');
+const path = require('node:path');
 const { enSecondes, UNITES } = require('./duree.js');
+
+// Lit la version dans package.json au moment de l'appel (le numéro n'est jamais recopié dans le code).
+function versionDuProgramme() {
+  const chemin = path.join(__dirname, '..', 'package.json');
+  return JSON.parse(fs.readFileSync(chemin, 'utf8')).version;
+}
 
 function texteAide() {
   const unites = Object.entries(UNITES)
@@ -20,12 +28,17 @@ function texteAide() {
     '',
     'Options:',
     '  --aide, -h  affiche cette aide',
+    '  --version   affiche la version du programme',
   ].join('\n');
 }
 
 function principal(args) {
   if (args.includes('--aide') || args.includes('-h')) {
     console.log(texteAide());
+    return 0;
+  }
+  if (args.includes('--version')) {
+    console.log(versionDuProgramme());
     return 0;
   }
   const texte = args.join(' ').trim();
