@@ -11,6 +11,13 @@ function versionDuProgramme() {
   return JSON.parse(fs.readFileSync(chemin, 'utf8')).version;
 }
 
+// Liste des unités reconnues, une par ligne (« s = 1 s »), tirée de la table UNITES.
+function texteUnites() {
+  return Object.entries(UNITES)
+    .map(([unite, secondes]) => `${unite} = ${secondes} s`)
+    .join('\n');
+}
+
 function texteAide() {
   const unites = Object.entries(UNITES)
     .map(([unite, secondes]) => `  ${unite}  (${secondes} s)`)
@@ -29,6 +36,7 @@ function texteAide() {
     'Options:',
     '  --aide, -h     affiche cette aide',
     '  --version, -v  affiche la version du programme',
+    '  --unites, -u   liste les unités reconnues et leur valeur en secondes',
   ].join('\n');
 }
 
@@ -39,6 +47,10 @@ function principal(args) {
   }
   if (args.includes('--version') || args.includes('-v')) {
     console.log(versionDuProgramme());
+    return 0;
+  }
+  if (args.includes('--unites') || args.includes('-u')) {
+    console.log(texteUnites());
     return 0;
   }
   const texte = args.join(' ').trim();
