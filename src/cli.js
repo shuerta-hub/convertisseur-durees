@@ -5,10 +5,18 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { enSecondes, UNITES } = require('./duree.js');
 
-// Lit la version dans package.json au moment de l'appel (le numéro n'est jamais recopié dans le code).
-function versionDuProgramme() {
+// Lit package.json au moment de l'appel (ni la version ni le nom ne sont jamais recopiés dans le code).
+function lirePackage() {
   const chemin = path.join(__dirname, '..', 'package.json');
-  return JSON.parse(fs.readFileSync(chemin, 'utf8')).version;
+  return JSON.parse(fs.readFileSync(chemin, 'utf8'));
+}
+
+function versionDuProgramme() {
+  return lirePackage().version;
+}
+
+function nomDuProgramme() {
+  return lirePackage().name;
 }
 
 function texteAide() {
@@ -29,6 +37,7 @@ function texteAide() {
     'Options:',
     '  --aide, -h     affiche cette aide',
     '  --version, -v  affiche la version du programme',
+    '  --nom, -n      affiche le nom du programme',
   ].join('\n');
 }
 
@@ -39,6 +48,10 @@ function principal(args) {
   }
   if (args.includes('--version') || args.includes('-v')) {
     console.log(versionDuProgramme());
+    return 0;
+  }
+  if (args.includes('--nom') || args.includes('-n')) {
+    console.log(nomDuProgramme());
     return 0;
   }
   const texte = args.join(' ').trim();
