@@ -5,10 +5,20 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { enSecondes, UNITES } = require('./duree.js');
 
-// Lit la version dans package.json au moment de l'appel (le numéro n'est jamais recopié dans le code).
-function versionDuProgramme() {
+// Lit un champ de package.json au moment de l'appel (la valeur n'est jamais recopiée dans le code).
+function champDuPackage(nom) {
   const chemin = path.join(__dirname, '..', 'package.json');
-  return JSON.parse(fs.readFileSync(chemin, 'utf8')).version;
+  return JSON.parse(fs.readFileSync(chemin, 'utf8'))[nom];
+}
+
+// Lit la version dans package.json au moment de l'appel.
+function versionDuProgramme() {
+  return champDuPackage('version');
+}
+
+// Lit la description dans package.json au moment de l'appel.
+function descriptionDuProgramme() {
+  return champDuPackage('description');
 }
 
 function texteAide() {
@@ -27,8 +37,9 @@ function texteAide() {
     'Exemple: npm run convertir -- "5 min"  affiche  300 s',
     '',
     'Options:',
-    '  --aide, -h     affiche cette aide',
-    '  --version, -v  affiche la version du programme',
+    '  --aide, -h         affiche cette aide',
+    '  --version, -v      affiche la version du programme',
+    '  --description, -d  affiche la description du programme',
   ].join('\n');
 }
 
@@ -39,6 +50,10 @@ function principal(args) {
   }
   if (args.includes('--version') || args.includes('-v')) {
     console.log(versionDuProgramme());
+    return 0;
+  }
+  if (args.includes('--description') || args.includes('-d')) {
+    console.log(descriptionDuProgramme());
     return 0;
   }
   const texte = args.join(' ').trim();
