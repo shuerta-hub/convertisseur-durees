@@ -21,6 +21,11 @@ function descriptionDuProgramme() {
   return champDuPackage('description');
 }
 
+// Liste des unités reconnues, une par ligne, dans l'ordre de la table UNITES.
+function texteUnites() {
+  return Object.keys(UNITES).join('\n');
+}
+
 function texteAide() {
   const unites = Object.entries(UNITES)
     .map(([unite, secondes]) => `  ${unite}  (${secondes} s)`)
@@ -40,6 +45,7 @@ function texteAide() {
     '  --aide, -h         affiche cette aide',
     '  --version, -v      affiche la version du programme',
     '  --description, -d  affiche la description du programme',
+    '  --unites, -u       affiche la liste des unités reconnues',
   ].join('\n');
 }
 
@@ -54,6 +60,10 @@ function principal(args) {
   }
   if (args.includes('--description') || args.includes('-d')) {
     console.log(descriptionDuProgramme());
+    return 0;
+  }
+  if (args.includes('--unites') || args.includes('-u')) {
+    console.log(texteUnites());
     return 0;
   }
   const texte = args.join(' ').trim();
