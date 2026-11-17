@@ -45,6 +45,7 @@ function texteAide() {
     '  --aide, -h         affiche cette aide',
     '  --version, -v      affiche la version du programme',
     '  --description, -d  affiche la description du programme',
+    '  --unites, -u       affiche la liste des unités reconnues',
   ].join('\n');
 }
 
