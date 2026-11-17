@@ -17,7 +17,8 @@ function mots(texte) {
   return texte.split(/[^\p{L}\p{N}]+/u).filter(Boolean);
 }
 
-const UNITES_ATTENDUES = ['s', 'min', 'h', 'j', 'sem'];
+// BACAS-33: ms s'ajoute aux unités reconnues
+const UNITES_ATTENDUES = ['ms', 's', 'min', 'h', 'j', 'sem'];
 
 // BACAS-4, critère 1: --aide affiche l'usage, les unités et un exemple, code 0
 
@@ -34,7 +35,7 @@ test('--aide affiche l\'usage du programme', () => {
   assert.match(r.stdout, /convertir/);
 });
 
-test('--aide liste chacune des unités reconnues: s, min, h, j, sem', () => {
+test('--aide liste chacune des unités reconnues: ms, s, min, h, j, sem', () => {
   const r = lancer('--aide');
   const lesMots = mots(r.stdout);
   for (const unite of UNITES_ATTENDUES) {
