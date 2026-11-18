@@ -8,6 +8,8 @@ const UNITES = {
   h: 3600,
   j: 86400,
   sem: 604800,
+  // Un trimestre vaut 90 jours.
+  trim: 90 * 86400,
 };
 
 // Les unités les plus longues d'abord (« ms » avant « s », « sem » avant « s »); le « $ » final impose de toute façon une correspondance complète.
@@ -19,8 +21,9 @@ const MOTIF = new RegExp(`^\\s*(\\d+(?:[.,]\\d+)?)\\s*(${ALTERNANCE})\\s*$`);
 const EXEMPLES = '5 min, 30 s, 2h, 2 h, 1,5 min, 1 j, 2 sem';
 
 /**
- * Convertit une durée écrite (ex. "5 min", "2h", "1,5 min", "2 sem", "500 ms") en secondes.
- * Unités reconnues: ms, s, min, h, j, sem. Lève une Error avec des exemples si la durée n'est pas reconnue.
+ * Convertit une durée écrite (ex. "5 min", "2h", "1,5 min", "2 sem", "500 ms", "2 trim") en secondes.
+ * Unités reconnues: ms, s, min, h, j, sem, trim (un trimestre vaut 90 jours).
+ * Lève une Error avec des exemples si la durée n'est pas reconnue.
  */
 function enSecondes(texte) {
   const correspondance = MOTIF.exec(String(texte));
