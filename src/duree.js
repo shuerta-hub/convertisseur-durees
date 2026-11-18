@@ -1,6 +1,7 @@
 'use strict';
 
 // Source unique des unités reconnues (valeur: nombre de secondes). Utilisée par la conversion et par l'aide de la CLI.
+// Un mois vaut 30 jours.
 const UNITES = {
   ms: 0.001,
   s: 1,
@@ -8,6 +9,7 @@ const UNITES = {
   h: 3600,
   j: 86400,
   sem: 604800,
+  mois: 30 * 86400,
 };
 
 // Les unités les plus longues d'abord (« ms » avant « s », « sem » avant « s »); le « $ » final impose de toute façon une correspondance complète.
@@ -19,8 +21,8 @@ const MOTIF = new RegExp(`^\\s*(\\d+(?:[.,]\\d+)?)\\s*(${ALTERNANCE})\\s*$`);
 const EXEMPLES = '5 min, 30 s, 2h, 2 h, 1,5 min, 1 j, 2 sem';
 
 /**
- * Convertit une durée écrite (ex. "5 min", "2h", "1,5 min", "2 sem", "500 ms") en secondes.
- * Unités reconnues: ms, s, min, h, j, sem. Lève une Error avec des exemples si la durée n'est pas reconnue.
+ * Convertit une durée écrite (ex. "5 min", "2h", "1,5 min", "2 sem", "500 ms", "2 mois") en secondes.
+ * Unités reconnues: ms, s, min, h, j, sem, mois (un mois vaut 30 jours). Lève une Error avec des exemples si la durée n'est pas reconnue.
  */
 function enSecondes(texte) {
   const correspondance = MOTIF.exec(String(texte));
